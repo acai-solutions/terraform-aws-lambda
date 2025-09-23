@@ -4,49 +4,41 @@ Copyright (C) 2024, 2025 ACAI GmbH
 Licensed under AGPL v3
 
 Visit https://www.acai.gmbh or https://docs.acai.gmbh for more information.
- 
+
 For full license text, see LICENSE file in repository root.
 
 """
 
-import os
 import json
+import os
 
-ACCOUNT_ID = os.environ['ACCOUNT_ID']
+ACCOUNT_ID = os.environ["ACCOUNT_ID"]
+
 
 def lambda_handler(event, context):
     file_path = os.path.join("sub-folder", "test.json")
 
     # Check if the file exists
     if not os.path.exists(file_path):
-        return {
-            'statusCode': 404,
-            'body': json.dumps({'error': 'File not found'})
-        }
+        return {"statusCode": 404, "body": json.dumps({"error": "File not found"})}
 
     # Try to load the file as JSON
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             data = json.load(file)
-            if data.get('accountId', '') == ACCOUNT_ID:
+            if data.get("accountId", "") == ACCOUNT_ID:
                 # Return JSON response
-                return {
-                    'statusCode': 200,
-                    'body': data
-                }
+                return {"statusCode": 200, "body": data}
             else:
                 return {
-                    'statusCode': 403,
-                    'body': json.dumps({'error': 'Account ID does not match'})
+                    "statusCode": 403,
+                    "body": json.dumps({"error": "Account ID does not match"}),
                 }
-                        
+
     except json.JSONDecodeError:
-        return {
-            'statusCode': 400,
-            'body': json.dumps({'error': 'Invalid JSON format'})
-        }
+        return {"statusCode": 400, "body": json.dumps({"error": "Invalid JSON format"})}
     except Exception:
         return {
-            'statusCode': 500,
-            'body': json.dumps({'error': 'Internal server error'})
+            "statusCode": 500,
+            "body": json.dumps({"error": "Internal server error"}),
         }
