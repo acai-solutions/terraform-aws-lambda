@@ -9,8 +9,8 @@ For full license text, see LICENSE file in repository root.
 
 """
 
-import os
 import json
+import os
 
 ACCOUNT_ID = os.environ["ACCOUNT_ID"]
 

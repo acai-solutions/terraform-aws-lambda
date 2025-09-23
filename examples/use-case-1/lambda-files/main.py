@@ -9,10 +9,11 @@ For full license text, see LICENSE file in repository root.
 
 """
 
-import os
-import boto3
 import json
+import os
 import time
+
+import boto3
 
 ACCOUNT_ID = os.environ["ACCOUNT_ID"]
 

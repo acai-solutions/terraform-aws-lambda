@@ -9,9 +9,10 @@ For full license text, see LICENSE file in repository root.
 
 """
 
-import os
-import boto3
 import json
+import os
+
+import boto3
 
 
 def lambda_handler(event, context):
