@@ -45,7 +45,7 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': json.dumps({'error': 'Invalid JSON format'})
         }
-    except Exception as e:
+    except Exception:
         return {
             'statusCode': 500,
             'body': json.dumps({'error': 'Internal server error'})
