@@ -6,6 +6,10 @@
 # 
 # For full license text, see LICENSE file in repository root.
 
+output "module_version" {
+  description = "The version of this module"
+  value       = local.module_version
+}
 
 output "lambda" {
   description = "Information about the Lambda."
