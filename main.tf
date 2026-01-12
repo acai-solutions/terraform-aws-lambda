@@ -111,7 +111,6 @@ data "archive_file" "lambda_package" {
   output_path = "${path.module}/${var.lambda_settings.function_name}_${local.region_name_short}_zipped_package.zip"
 }
 
-#tfsec:ignore:avd-aws-0066 Lambda functions should have X-Ray tracing enabled
 resource "aws_lambda_function" "this" {
   #checkov:skip=CKV_AWS_272 : #TODO Code Signing will be added in a later release  
   function_name = var.lambda_settings.function_name

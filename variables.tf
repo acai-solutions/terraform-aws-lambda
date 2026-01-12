@@ -42,7 +42,7 @@ variable "lambda_settings" {
     environment_variables          = optional(map(string), {})
     reserved_concurrent_executions = optional(number, -1)
     publish                        = optional(bool, false)
-    tracing_mode                   = optional(string)
+    tracing_mode                   = optional(string, "Active")
     file_system_config = optional(object({
       arn              = string
       local_mount_path = string
