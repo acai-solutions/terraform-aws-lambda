@@ -250,7 +250,11 @@ variable "resource_tags" {
 }
 
 variable "module_context" {
-  description = "Infix for the parameter store entry."
+  description = "Infix for the parameter store entry. If provided, must end with '/'."
   type        = string
   default     = ""
+  validation {
+    condition     = var.module_context == "" || endswith(var.module_context, "/")
+    error_message = "If module_context is provided, it must end with '/'."
+  }
 }
