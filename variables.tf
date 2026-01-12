@@ -248,3 +248,9 @@ variable "resource_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "module_context" {
+  description = "Infix for the parameter store entry."
+  type        = string
+  default     = ""
+}
