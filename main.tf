@@ -74,7 +74,7 @@ locals {
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "module_version" {
   #checkov:skip=CKV2_AWS_34: AWS SSM Parameter should be Encrypted not required for module version
-  name           = lower("/acai/${var.module_context}lambda/moduleversion")
+  name           = lower("/acai/${var.module_context}lambda/${var.lambda_settings.function_name}/moduleversion")
   type           = "String"
   insecure_value = /*inject_version_start*/ "1.5.0" /*inject_version_end*/
   overwrite      = true
