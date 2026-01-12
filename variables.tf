@@ -42,7 +42,7 @@ variable "lambda_settings" {
     environment_variables          = optional(map(string), {})
     reserved_concurrent_executions = optional(number, -1)
     publish                        = optional(bool, false)
-    tracing_mode                   = optional(string)
+    tracing_mode                   = optional(string, "Active")
     file_system_config = optional(object({
       arn              = string
       local_mount_path = string
@@ -247,4 +247,14 @@ variable "resource_tags" {
   description = "A map of tags to assign to the resources in this module."
   type        = map(string)
   default     = {}
+}
+
+variable "module_context" {
+  description = "Infix for the parameter store entry. If provided, must end with '/'."
+  type        = string
+  default     = ""
+  validation {
+    condition     = var.module_context == "" || endswith(var.module_context, "/")
+    error_message = "If module_context is provided, it must end with '/'."
+  }
 }

@@ -42,8 +42,7 @@ locals {
     {
       "module_lambda_provider" = "ACAI GmbH",
       "module_lambda_origin"   = "terraform registry",
-      "module_lambda_source"   = "acai-consulting/lambda/aws",
-      "module_lambda_version"  = /*inject_version_start*/ "1.5.0" /*inject_version_end*/
+      "module_lambda_source"   = "acai-solutions/lambda/aws",
     },
     can(var.resource_tags["module_stack"]) ? {
       "module_stack" = "${var.resource_tags["module_stack"]}/lambda"
@@ -68,6 +67,21 @@ locals {
     lambda_timeout = var.lambda_settings.config.timeout
     loggroup_name  = local.loggroup_name
   }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ¦ MODULE VERSION AS PARAMETER STORE ENTRY
+# ---------------------------------------------------------------------------------------------------------------------
+locals {
+  module_version = /*inject_version_start*/ "1.5.0" /*inject_version_end*/
+}
+resource "aws_ssm_parameter" "module_version" {
+  #checkov:skip=CKV2_AWS_34: AWS SSM Parameter should be Encrypted not required for module version
+  name           = lower("/acai/${var.module_context}lambda/${var.lambda_settings.function_name}/moduleversion")
+  type           = "String"
+  insecure_value = local.module_version
+  overwrite      = true
+  tags           = local.resource_tags
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -101,9 +115,9 @@ data "archive_file" "lambda_package" {
   output_path = "${path.module}/${var.lambda_settings.function_name}_${local.region_name_short}_zipped_package.zip"
 }
 
-#tfsec:ignore:avd-aws-0066 Lambda functions should have X-Ray tracing enabled
 resource "aws_lambda_function" "this" {
-  #checkov:skip=CKV_AWS_272 : #TODO Code Signing will be added in a later release  
+  #checkov:skip=CKV_AWS_272 : #TODO Code Signing will be added in a later release
+  #checkov:skip=CKV_AWS_50
   function_name = var.lambda_settings.function_name
   description   = var.lambda_settings.description
   layers        = var.lambda_settings.layer_names == null ? var.lambda_settings.layer_arn_list : var.lambda_settings.layer_names

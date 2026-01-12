@@ -92,7 +92,8 @@ module "use_case_3_lambda1" {
   execution_iam_role_settings = {
     existing_iam_role_arn = aws_iam_role.lambda_exec_role.arn
   }
-  resource_tags = var.resource_tags
+  resource_tags  = var.resource_tags
+  module_context = "uc-1/"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -139,7 +140,8 @@ module "use_case_3_lambda2" {
   execution_iam_role_settings = {
     existing_iam_role_arn = aws_iam_role.lambda_exec_role.arn
   }
-  resource_tags = var.resource_tags
+  resource_tags  = var.resource_tags
+  module_context = "uc-2/"
 }
 
 
