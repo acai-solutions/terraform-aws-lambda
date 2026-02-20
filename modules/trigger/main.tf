@@ -23,10 +23,15 @@ terraform {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
+# ¦ DATA
+# ---------------------------------------------------------------------------------------------------------------------
+data "aws_partition" "current" {}
+
+# ---------------------------------------------------------------------------------------------------------------------
 # ¦ LOCALS
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
-  account_arn             = format("arn:aws:iam::%s:root", var.runtime_configuration.account_id)
+  account_arn             = format("arn:${data.aws_partition.current.partition}:iam::%s:root", var.runtime_configuration.account_id)
   trigger_sqs_name        = "${var.runtime_configuration.lambda_name}-trigger"
   schedule_eventrule_name = "${var.runtime_configuration.lambda_name}-schedule"
 

@@ -109,8 +109,8 @@ variable "lambda_settings" {
   }
 
   validation {
-    condition     = var.lambda_settings.file_system_config == null || can(regex("^arn:aws:elasticfilesystem:", var.lambda_settings.file_system_config.arn))
-    error_message = "File system config ARN must start with 'arn:aws:elasticfilesystem:'."
+    condition     = var.lambda_settings.file_system_config == null || can(regex("^arn:aws(-[a-z]+)*:elasticfilesystem:", var.lambda_settings.file_system_config.arn))
+    error_message = "File system config ARN must be a valid EFS ARN (arn:<partition>:elasticfilesystem:...)."
   }
 
   validation {
@@ -119,7 +119,7 @@ variable "lambda_settings" {
   }
 
   validation {
-    condition     = var.lambda_settings.error_handling == null ? true : (var.lambda_settings.error_handling.dead_letter_config == null ? true : can(regex("arn:aws:(sns|sqs):[a-z\\-0-9]+:\\d{12}:(.*)", var.lambda_settings.error_handling.dead_letter_config.target_arn)))
+    condition     = var.lambda_settings.error_handling == null ? true : (var.lambda_settings.error_handling.dead_letter_config == null ? true : can(regex("arn:aws(-[a-z]+)*:(sns|sqs):[a-z\\-0-9]+:\\d{12}:(.*)", var.lambda_settings.error_handling.dead_letter_config.target_arn)))
     error_message = "The dead_letter_config.target_arn must be a valid ARN of an SNS topic or SQS queue."
   }
 
@@ -163,7 +163,7 @@ variable "trigger_settings" {
   validation {
     condition = alltrue([
       for perm in try(var.trigger_settings.trigger_permissions, []) :
-      can(regex(".+\\.amazonaws\\.com$|^\\d{12}$", perm.principal)) && can(regex("^arn:aws:.+|^any$", perm.source_arn))
+      can(regex(".+\\.amazonaws\\.com$|^\\d{12}$", perm.principal)) && can(regex("^arn:aws(-[a-z]+)*:.+|^any$", perm.source_arn))
     ])
     error_message = "Invalid trigger_permissions configuration. Principals must be AWS service principals or AWS account IDs, and Source ARNs must start with 'arn:aws:' or be 'any'."
   }
@@ -181,9 +181,9 @@ variable "trigger_settings" {
   validation {
     condition = can(var.trigger_settings.sqs) && alltrue([
       for topic in try(var.trigger_settings.sqs.inbound_sns_topics, []) :
-      can(regex("^arn:aws:sns:", topic.sns_arn))
+      can(regex("^arn:aws(-[a-z]+)*:sns:", topic.sns_arn))
     ])
-    error_message = "Values for trigger_settings.sqs.inbound_sns_topics must contain SNS ARN, starting with 'arn:aws:sns:'."
+    error_message = "Values for trigger_settings.sqs.inbound_sns_topics must contain a valid SNS ARN (arn:<partition>:sns:...)."
   }
 
   validation {
@@ -238,8 +238,8 @@ variable "existing_kms_cmk_arn" {
   type        = string
   default     = null
   validation {
-    condition     = var.existing_kms_cmk_arn == null ? true : can(regex("^arn:aws:kms", var.existing_kms_cmk_arn))
-    error_message = "Value must contain ARN, starting with \"arn:aws:kms\"."
+    condition     = var.existing_kms_cmk_arn == null ? true : can(regex("^arn:aws(-[a-z]+)*:kms", var.existing_kms_cmk_arn))
+    error_message = "Value must be a valid KMS ARN (arn:<partition>:kms:...)."
   }
 }
 

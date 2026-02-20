@@ -256,7 +256,7 @@ module "lambda_execution_iam_role" {
 resource "aws_iam_role_policy_attachment" "aws_xray_write_only_access" {
   count      = var.lambda_settings.tracing_mode == null || var.execution_iam_role_settings.permissions_fully_externally_managed ? 0 : 1
   role       = module.lambda_execution_iam_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+  policy_arn = "arn:${local.runtime_configuration.partition_name}:iam::aws:policy/AWSXrayWriteOnlyAccess"
 }
 
 resource "aws_iam_role_policy" "triggering_sqs_permissions" {
