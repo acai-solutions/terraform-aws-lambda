@@ -14,7 +14,7 @@ jobs:
     uses: acai-solutions/github-workflows/.github/workflows/checks-tf-module.yml@aws_esc
     if: ${{ github.event_name == 'pull_request' }}
     with:
-      terratest_config_repo_path: 'aws/matrix_tf1x14x0_aws6x0x0.json'
+      terratest_config_repo_path: 'aws/matrix_tf1x14x0_aws6x29x0.json'
       test_beds: '["AWS_ESC"]'
     secrets: inherit
 
