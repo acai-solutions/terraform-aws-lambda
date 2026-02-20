@@ -58,12 +58,12 @@ locals {
   )
   loggroup_name = "/aws/lambda/${var.lambda_settings.function_name}"
   runtime_configuration = {
-    partition_name = data.aws_partition.current.id
+    partition_name = data.aws_partition.current.partition
     region_name    = data.aws_region.current.id
     region_short   = local.region_name_short
     account_id     = data.aws_caller_identity.current.account_id
     lambda_name    = var.lambda_settings.function_name
-    lambda_arn     = "arn:${data.aws_partition.current.id}:lambda:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
+    lambda_arn     = "arn:${data.aws_partition.current.partition}:lambda:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
     lambda_timeout = var.lambda_settings.config.timeout
     loggroup_name  = local.loggroup_name
   }
