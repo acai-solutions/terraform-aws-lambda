@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.5.1...1.5.2) (2026-02-23)
+
+
+### Bug Fixes
+
+* migrate to new terratest-testing ([#3](https://github.com/acai-solutions/terraform-aws-lambda/issues/3)) ([f446d3c](https://github.com/acai-solutions/terraform-aws-lambda/commit/f446d3c43c8a41ca2f93c0dd3261efdc78b7a461))
+
 ## [1.5.1](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.5.0...1.5.1) (2026-01-12)
 
 
