@@ -8,19 +8,36 @@ import (
 )
 
 func TestLambdaUC1(t *testing.T) {
-	// retryable errors in terraform testing.
-	t.Log("Starting lambda module test")
+	t.Log("Starting Sample Module test")
 
-	terraformOptions := &terraform.Options{
-		TerraformDir: "../../examples/use-case-1",
-		NoColor:      false,
-		Lock:         true,
+	terraformDir := "../../examples/use-case-1"
+	backendConfig := loadBackendConfig(t)
+
+	// Create IAM Role
+	terraformPreparation := &terraform.Options{
+		TerraformDir:  terraformDir,
+		NoColor:       false,
+		Lock:          true,
+		BackendConfig: backendConfig,
+		Reconfigure:   true,
+		Targets: []string{
+			"module.create_provisioner",
+		},
 	}
+	defer terraform.Destroy(t, terraformPreparation)
+	terraform.InitAndApply(t, terraformPreparation)
 
-	defer terraform.Destroy(t, terraformOptions)
-	terraform.InitAndApply(t, terraformOptions)
+	terraformModule := &terraform.Options{
+		TerraformDir:  terraformDir,
+		NoColor:       false,
+		Lock:          true,
+		BackendConfig: backendConfig,
+		Reconfigure:   true,
+	}
+	defer terraform.Destroy(t, terraformModule)
+	terraform.InitAndApply(t, terraformModule)
 
-	lambdaResultOutput := terraform.OutputMap(t, terraformOptions, "use_case_1_lambda_result")
+	lambdaResultOutput := terraform.OutputMap(t, terraformModule, "use_case_1_lambda_result")
 	t.Logf("Lambda Output: %s", lambdaResultOutput)
 
 	// Extract the statusCode and assert it

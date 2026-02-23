@@ -25,6 +25,7 @@ terraform {
 # ---------------------------------------------------------------------------------------------------------------------
 # ¦ DATA
 # ---------------------------------------------------------------------------------------------------------------------
+data "aws_partition" "current" {}
 data "aws_caller_identity" "current" {}
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -88,7 +89,7 @@ resource "aws_sns_topic_policy" "triggering_sns" {
         Effect = "Allow"
         Action = "sns:Publish"
         Principal = {
-          AWS = format("arn:aws:iam::%s:root", data.aws_caller_identity.current.id)
+          AWS = format("arn:${data.aws_partition.current.partition}:iam::%s:root", data.aws_caller_identity.current.id)
         }
         Resource = aws_sns_topic.triggering_sns.arn
       },
@@ -97,7 +98,7 @@ resource "aws_sns_topic_policy" "triggering_sns" {
         Effect = "Allow"
         Action = "sns:Subscribe"
         Principal = {
-          AWS = format("arn:aws:iam::%s:root", data.aws_caller_identity.current.id)
+          AWS = format("arn:${data.aws_partition.current.partition}:iam::%s:root", data.aws_caller_identity.current.id)
         }
         Resource = aws_sns_topic.triggering_sns.arn
       }

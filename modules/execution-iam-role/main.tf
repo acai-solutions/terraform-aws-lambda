@@ -23,6 +23,11 @@ terraform {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
+# ¦ DATA
+# ---------------------------------------------------------------------------------------------------------------------
+data "aws_partition" "current" {}
+
+# ---------------------------------------------------------------------------------------------------------------------
 # ¦ LOCALS
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
@@ -93,7 +98,7 @@ data "aws_iam_policy_document" "lambda_context" {
     sid       = "LogToCloudWatch"
     effect    = "Allow"
     actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
-    resources = ["arn:aws:logs:${var.runtime_configuration.region_name}:${var.runtime_configuration.account_id}:log-group:${var.runtime_configuration.loggroup_name}:*"]
+    resources = ["arn:${data.aws_partition.current.partition}:logs:${var.runtime_configuration.region_name}:${var.runtime_configuration.account_id}:log-group:${var.runtime_configuration.loggroup_name}:*"]
   }
 
   dynamic "statement" {

@@ -58,12 +58,12 @@ locals {
   )
   loggroup_name = "/aws/lambda/${var.lambda_settings.function_name}"
   runtime_configuration = {
-    partition_name = data.aws_partition.current.id
+    partition_name = data.aws_partition.current.partition
     region_name    = data.aws_region.current.id
     region_short   = local.region_name_short
     account_id     = data.aws_caller_identity.current.account_id
     lambda_name    = var.lambda_settings.function_name
-    lambda_arn     = "arn:${data.aws_partition.current.id}:lambda:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
+    lambda_arn     = "arn:${data.aws_partition.current.partition}:lambda:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
     lambda_timeout = var.lambda_settings.config.timeout
     loggroup_name  = local.loggroup_name
   }
@@ -256,7 +256,7 @@ module "lambda_execution_iam_role" {
 resource "aws_iam_role_policy_attachment" "aws_xray_write_only_access" {
   count      = var.lambda_settings.tracing_mode == null || var.execution_iam_role_settings.permissions_fully_externally_managed ? 0 : 1
   role       = module.lambda_execution_iam_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+  policy_arn = "arn:${local.runtime_configuration.partition_name}:iam::aws:policy/AWSXrayWriteOnlyAccess"
 }
 
 resource "aws_iam_role_policy" "triggering_sqs_permissions" {

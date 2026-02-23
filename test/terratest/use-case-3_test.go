@@ -8,19 +8,36 @@ import (
 )
 
 func TestLambdaUC3(t *testing.T) {
-	// retryable errors in terraform testing.
-	t.Log("Starting lambda module test")
+	t.Log("Starting Sample Module test")
 
-	terraformOptions := &terraform.Options{
-		TerraformDir: "../../examples/use-case-3",
-		NoColor:      false,
-		Lock:         true,
+	terraformDir := "../../examples/use-case-3"
+	backendConfig := loadBackendConfig(t)
+
+	// Create IAM Role
+	terraformPreparation := &terraform.Options{
+		TerraformDir:  terraformDir,
+		NoColor:       false,
+		Lock:          true,
+		BackendConfig: backendConfig,
+		Reconfigure:   true,
+		Targets: []string{
+			"module.create_provisioner",
+		},
 	}
+	defer terraform.Destroy(t, terraformPreparation)
+	terraform.InitAndApply(t, terraformPreparation)
 
-	defer terraform.Destroy(t, terraformOptions)
-	terraform.InitAndApply(t, terraformOptions)
+	terraformModule := &terraform.Options{
+		TerraformDir:  terraformDir,
+		NoColor:       false,
+		Lock:          true,
+		BackendConfig: backendConfig,
+		Reconfigure:   true,
+	}
+	defer terraform.Destroy(t, terraformModule)
+	terraform.InitAndApply(t, terraformModule)
 
-	lambdaResultOutput1 := terraform.OutputMap(t, terraformOptions, "use_case_3_lambda1_result")
+	lambdaResultOutput1 := terraform.OutputMap(t, terraformModule, "use_case_3_lambda1_result")
 	t.Logf("Lambda Output1: %s", lambdaResultOutput1)
 
 	// Extract the statusCode and assert it
@@ -29,7 +46,7 @@ func TestLambdaUC3(t *testing.T) {
 	t.Logf("Derived StatusCode1: %s", statusCode1)
 	assert.Equal(t, "200", statusCode1, "Expected statusCode to be 200")
 
-	lambdaResultOutput2 := terraform.OutputMap(t, terraformOptions, "use_case_3_lambda2_result")
+	lambdaResultOutput2 := terraform.OutputMap(t, terraformModule, "use_case_3_lambda2_result")
 	t.Logf("Lambda Output2: %s", lambdaResultOutput2)
 
 	// Extract the statusCode and assert it
