@@ -26,6 +26,7 @@ terraform {
 # ¦ DATA
 # ---------------------------------------------------------------------------------------------------------------------
 data "aws_caller_identity" "current" {}
+data "aws_partition" "current" {}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ¦ SHARED IAM ROLE
@@ -38,7 +39,7 @@ resource "aws_iam_role" "lambda_exec_role" {
     Statement = [
       {
         Action    = "sts:AssumeRole"
-        Principal = { Service = "lambda.amazonaws.com" }
+        Principal = { Service = "lambda.${data.aws_partition.current.dns_suffix}" }
         Effect    = "Allow"
         Sid       = ""
       }

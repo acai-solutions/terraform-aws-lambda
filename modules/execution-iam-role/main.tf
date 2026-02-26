@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "execution_role_trust" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
+      identifiers = ["lambda.${data.aws_partition.current.dns_suffix}"]
     }
   }
 }
