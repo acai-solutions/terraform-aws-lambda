@@ -1,0 +1,32 @@
+# Normalize text files to LF across platforms
+* text=auto
+
+# Source and config files
+*.py text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.ps1 text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tgz binary
+*.ico binary
