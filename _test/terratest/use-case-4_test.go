@@ -15,11 +15,12 @@ func TestLambdaUC4(t *testing.T) {
 
 	// Create IAM Role
 	terraformPreparation := &terraform.Options{
-		TerraformDir:  terraformDir,
-		NoColor:       false,
-		Lock:          true,
-		BackendConfig: backendConfig,
-		Reconfigure:   true,
+		TerraformBinary: getHclBinary(),
+		TerraformDir:    terraformDir,
+		NoColor:         false,
+		Lock:            true,
+		BackendConfig:   backendConfig,
+		Reconfigure:     true,
 		Targets: []string{
 			"module.create_provisioner",
 		},
@@ -28,11 +29,12 @@ func TestLambdaUC4(t *testing.T) {
 	terraform.InitAndApply(t, terraformPreparation)
 
 	terraformModule := &terraform.Options{
-		TerraformDir:  terraformDir,
-		NoColor:       false,
-		Lock:          true,
-		BackendConfig: backendConfig,
-		Reconfigure:   true,
+		TerraformBinary: getHclBinary(),
+		TerraformDir:    terraformDir,
+		NoColor:         false,
+		Lock:            true,
+		BackendConfig:   backendConfig,
+		Reconfigure:     true,
 	}
 	defer terraform.Destroy(t, terraformModule)
 	terraform.InitAndApply(t, terraformModule)
