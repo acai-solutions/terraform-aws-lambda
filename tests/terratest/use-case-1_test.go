@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLambdaUC2(t *testing.T) {
+func TestLambdaUC1(t *testing.T) {
 	t.Log("Starting Sample Module test")
 
-	terraformDir := "../../_example/use-case-2"
+	terraformDir := "../../examples/use-case-1"
 	backendConfig := loadBackendConfig(t)
 
 	// Create IAM Role
@@ -39,7 +39,7 @@ func TestLambdaUC2(t *testing.T) {
 	defer terraform.Destroy(t, terraformModule)
 	terraform.InitAndApply(t, terraformModule)
 
-	lambdaResultOutput := terraform.OutputMap(t, terraformModule, "use_case_2_lambda_result")
+	lambdaResultOutput := terraform.OutputMap(t, terraformModule, "use_case_1_lambda_result")
 	t.Logf("Lambda Output: %s", lambdaResultOutput)
 
 	// Extract the statusCode and assert it

@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLambdaUC5(t *testing.T) {
+func TestLambdaUC3(t *testing.T) {
 	t.Log("Starting Sample Module test")
 
-	terraformDir := "../../_example/use-case-5"
+	terraformDir := "../../examples/use-case-3"
 	backendConfig := loadBackendConfig(t)
 
 	// Create IAM Role
@@ -39,12 +39,21 @@ func TestLambdaUC5(t *testing.T) {
 	defer terraform.Destroy(t, terraformModule)
 	terraform.InitAndApply(t, terraformModule)
 
-	lambdaResultOutput := terraform.OutputMap(t, terraformModule, "use_case_5_lambda_result")
-	t.Logf("Lambda Output: %s", lambdaResultOutput)
+	lambdaResultOutput1 := terraform.OutputMap(t, terraformModule, "use_case_3_lambda1_result")
+	t.Logf("Lambda Output1: %s", lambdaResultOutput1)
 
 	// Extract the statusCode and assert it
-	statusCode := lambdaResultOutput["statusCode"]
+	statusCode1 := lambdaResultOutput1["statusCode"]
 	// Print the status code
-	t.Logf("Derived StatusCode: %s", statusCode)
-	assert.Equal(t, "200", statusCode, "Expected statusCode to be 200")
+	t.Logf("Derived StatusCode1: %s", statusCode1)
+	assert.Equal(t, "200", statusCode1, "Expected statusCode to be 200")
+
+	lambdaResultOutput2 := terraform.OutputMap(t, terraformModule, "use_case_3_lambda2_result")
+	t.Logf("Lambda Output2: %s", lambdaResultOutput2)
+
+	// Extract the statusCode and assert it
+	statusCode2 := lambdaResultOutput2["statusCode"]
+	// Print the status code
+	t.Logf("Derived StatusCode: %s", statusCode2)
+	assert.Equal(t, "200", statusCode2, "Expected statusCode to be 200")
 }
