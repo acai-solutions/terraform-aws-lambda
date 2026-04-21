@@ -10,15 +10,19 @@ on:
       - main
 
 jobs:
-  tf_module_checks:
-    uses: acai-solutions/github-workflows/.github/workflows/checks-tf-module.yml@main
+  hcl_module_checks:
+    uses: acai-solutions/github-workflows/.github/workflows/checks-hcl-module.yml@main
     if: ${{ github.event_name == 'pull_request' }}
     with:
-      test_beds: '["AWS", "AWS_ESC"]'
+      hcl_test_beds: '["AWS", "AWS_ESC"]'
+      hcl_test_bed_aws_terratest_configs: '["aws/matrix_tf1x5x7_aws5x80x0.json", "aws/matrix_ofu1x6x0_aws5x80x0.json"]'
+      hcl_test_bed_aws_esc_terratest_configs: '["aws/matrix_tf1x14x0_aws6x29x0.json", "aws/matrix_ofu1x9x0_aws6x29x0.json"]'
+      hcl_terratest_path: "_test/terratest"
+      hcl_terratest_examples_path: "_example"
     secrets: inherit
 
     
-  tf_module_release:
-    uses: acai-solutions/github-workflows/.github/workflows/tf-module-release.yml@main
+  hcl_module_release:
+    uses: acai-solutions/github-workflows/.github/workflows/hcl-module-release.yml@main
     if: ${{ github.event_name == 'push' }}
     secrets: inherit
