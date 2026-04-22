@@ -9,7 +9,8 @@
 [![Maintained by acai.gmbh][acai-shield]][acai-url]
 [![documentation][acai-docs-shield]][acai-docs-url]  
 ![module-version-shield]
-![terraform-version-shield]  
+![terraform-tested-shield]
+![opentofu-tested-shield]  
 ![trivy-shield]
 ![checkov-shield]
 
@@ -572,7 +573,8 @@ See [LICENSE][license-url] for full details.
 [acai-url]: https://acai.gmbh
 [acai-docs-url]: https://docs.acai.gmbh
 [module-version-shield]: https://img.shields.io/badge/module_version-1.5.2-CB224B?style=flat
-[terraform-version-shield]: https://img.shields.io/badge/tf-%3E%3D1.3.10-blue.svg?style=flat&color=blueviolet
+[terraform-tested-shield]: https://img.shields.io/badge/terraform-%3E%3D1.5.7_tested-844FBA?style=flat&logo=terraform&logoColor=white
+[opentofu-tested-shield]: https://img.shields.io/badge/opentofu-%3E%3D1.6_tested-FFDA18?style=flat&logo=opentofu&logoColor=black
 [trivy-shield]: https://img.shields.io/badge/trivy-passed-green
 [checkov-shield]: https://img.shields.io/badge/checkov-passed-green
 [release-shield]: https://img.shields.io/github/v/release/acai-solutions/terraform-aws-lambda?style=flat&color=success
