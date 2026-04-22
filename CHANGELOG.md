@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.1](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.6.0...1.6.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* add ESC Test ([#6](https://github.com/acai-solutions/terraform-aws-lambda/issues/6)) ([855577a](https://github.com/acai-solutions/terraform-aws-lambda/commit/855577a2650f9dfc5fe14c5053fab9048cff96d3))
+
 ## [1.6.0](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.5.2...1.6.0) (2026-04-22)
 
 
