@@ -73,7 +73,7 @@ locals {
 # ¦ MODULE VERSION AS PARAMETER STORE ENTRY
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
-  module_version = /*inject_version_start*/ "1.5.2" /*inject_version_end*/
+  module_version = /*inject_version_start*/ "1.6.0" /*inject_version_end*/
 }
 resource "aws_ssm_parameter" "module_version" {
   #checkov:skip=CKV2_AWS_34: AWS SSM Parameter should be Encrypted not required for module version

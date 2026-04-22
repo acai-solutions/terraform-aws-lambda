@@ -572,7 +572,7 @@ See [LICENSE][license-url] for full details.
 [acai-docs-shield]: https://img.shields.io/badge/documentation-docs.acai.gmbh-CB224B?style=flat
 [acai-url]: https://acai.gmbh
 [acai-docs-url]: https://docs.acai.gmbh
-[module-version-shield]: https://img.shields.io/badge/module_version-1.5.2-CB224B?style=flat
+[module-version-shield]: https://img.shields.io/badge/module_version-1.6.0-CB224B?style=flat
 [terraform-tested-shield]: https://img.shields.io/badge/terraform-%3E%3D1.5.7_tested-844FBA?style=flat&logo=terraform&logoColor=white
 [opentofu-tested-shield]: https://img.shields.io/badge/opentofu-%3E%3D1.6_tested-FFDA18?style=flat&logo=opentofu&logoColor=black
 [trivy-shield]: https://img.shields.io/badge/trivy-passed-green

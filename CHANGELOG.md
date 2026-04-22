@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.5.2...1.6.0) (2026-04-22)
+
+
+### Features
+
+* OpenTofu support ([360c1cd](https://github.com/acai-solutions/terraform-aws-lambda/commit/360c1cd7a0d99d87aafd95262edd0b33e1830b03))
+
 ## [1.5.2](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.5.1...1.5.2) (2026-02-23)
 
 
