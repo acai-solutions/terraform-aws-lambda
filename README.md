@@ -8,9 +8,9 @@
 <!-- SHIELDS -->
 [![Maintained by acai.gmbh][acai-shield]][acai-url]
 [![documentation][acai-docs-shield]][acai-docs-url]  
-![module-version-shield]
+![module-version-shield]  
 ![terraform-tested-shield]
-![opentofu-tested-shield]  
+![opentofu-tested-shield]    
 ![aws-tested-shield]
 ![aws-esc-tested-shield]  
 ![trivy-shield]
@@ -567,7 +567,7 @@ See [LICENSE][license-url] for full details.
 
 <!-- COPYRIGHT -->
 <br />
-<p align="center">Copyright &copy; 2024 ACAI GmbH</p>
+<p align="center">Copyright ACAI GmbH</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [acai-shield]: https://img.shields.io/badge/maintained_by-acai.gmbh-CB224B?style=flat
