@@ -11,6 +11,8 @@
 ![module-version-shield]
 ![terraform-tested-shield]
 ![opentofu-tested-shield]  
+![aws-tested-shield]
+![aws-esc-tested-shield]  
 ![trivy-shield]
 ![checkov-shield]
 
@@ -575,6 +577,8 @@ See [LICENSE][license-url] for full details.
 [module-version-shield]: https://img.shields.io/badge/module_version-1.6.0-CB224B?style=flat
 [terraform-tested-shield]: https://img.shields.io/badge/terraform-%3E%3D1.5.7_tested-844FBA?style=flat&logo=terraform&logoColor=white
 [opentofu-tested-shield]: https://img.shields.io/badge/opentofu-%3E%3D1.6_tested-FFDA18?style=flat&logo=opentofu&logoColor=black
+[aws-tested-shield]: https://img.shields.io/badge/AWS-%E2%9C%93_tested-FF9900?style=flat&logo=amazonaws&logoColor=white
+[aws-esc-tested-shield]: https://img.shields.io/badge/AWS_ESC-%E2%9C%93_tested-003399?style=flat&logo=amazonaws&logoColor=white
 [trivy-shield]: https://img.shields.io/badge/trivy-passed-green
 [checkov-shield]: https://img.shields.io/badge/checkov-passed-green
 [release-shield]: https://img.shields.io/github/v/release/acai-solutions/terraform-aws-lambda?style=flat&color=success
