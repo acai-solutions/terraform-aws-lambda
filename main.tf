@@ -116,8 +116,8 @@ data "archive_file" "lambda_package" {
 }
 
 resource "aws_lambda_function" "this" {
-  #checkov:skip=CKV_AWS_272 : #TODO Code Signing will be added in a later release
-  #checkov:skip=CKV_AWS_50
+  #checkov:skip=CKV_AWS_272: Code Signing will be added in a later release
+  #checkov:skip=CKV_AWS_50: X-Ray tracing is configurable via var.lambda_settings.tracing_mode and defaults to "Active"
   function_name = var.lambda_settings.function_name
   description   = var.lambda_settings.description
   layers        = var.lambda_settings.layer_names == null ? var.lambda_settings.layer_arn_list : var.lambda_settings.layer_names
