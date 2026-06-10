@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.2](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.6.1...1.6.2) (2026-06-10)
+
+
+### Bug Fixes
+
+* event_bus_name in aws_cloudwatch_event_target ([#7](https://github.com/acai-solutions/terraform-aws-lambda/issues/7)) ([de288c3](https://github.com/acai-solutions/terraform-aws-lambda/commit/de288c3b48cfc7a764cceaa03cb9b5421b58417b))
+
 ## [1.6.1](https://github.com/acai-solutions/terraform-aws-lambda/compare/1.6.0...1.6.1) (2026-04-22)
 
 
