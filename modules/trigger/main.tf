@@ -218,7 +218,8 @@ resource "aws_cloudwatch_event_target" "pattern" {
   # And applied here as well
   for_each = { for rule in try(var.trigger_settings.event_rules, []) : rule.name => rule }
 
-  target_id = "attach_schedule_to_lambda"
-  rule      = aws_cloudwatch_event_rule.pattern[each.key].name
-  arn       = var.runtime_configuration.lambda_arn
+  target_id      = "attach_schedule_to_lambda"
+  rule           = aws_cloudwatch_event_rule.pattern[each.key].name
+  event_bus_name = each.value.event_bus_name
+  arn            = var.runtime_configuration.lambda_arn
 }
