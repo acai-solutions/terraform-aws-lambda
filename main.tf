@@ -73,7 +73,7 @@ locals {
 # ¦ MODULE VERSION AS PARAMETER STORE ENTRY
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
-  module_version = /*inject_version_start*/ "1.6.1" /*inject_version_end*/
+  module_version = /*inject_version_start*/ "1.6.2" /*inject_version_end*/
 }
 resource "aws_ssm_parameter" "module_version" {
   #checkov:skip=CKV2_AWS_34: AWS SSM Parameter should be Encrypted not required for module version
@@ -89,12 +89,12 @@ resource "aws_ssm_parameter" "module_version" {
 # ---------------------------------------------------------------------------------------------------------------------
 locals {
   package_source_path = var.lambda_settings.package.source_path
-  lambda_file_paths   = tolist(fileset(local.package_source_path, "**/*"))
+  lambda_file_paths   = local.package_source_path != null ? tolist(fileset(local.package_source_path, "**/*")) : []
 
-  lambda_package_map = merge(
+  lambda_package_map = local.package_source_path != null ? merge(
     { for file in local.lambda_file_paths : file => file("${local.package_source_path}/${file}") },
     coalesce(var.lambda_settings.package.files_to_inject, {})
-  )
+  ) : {}
 }
 
 data "archive_file" "lambda_package" {
@@ -135,8 +135,8 @@ resource "aws_lambda_function" "this" {
 
   package_type     = var.lambda_settings.package.type
   image_uri        = try(var.lambda_settings.image_config.image_uri, null)
-  filename         = var.lambda_settings.package.source_path == null ? var.lambda_settings.package.local_path : data.archive_file.lambda_package[0].output_path
-  source_code_hash = var.lambda_settings.package.source_path == null ? filebase64sha256(var.lambda_settings.package.local_path) : data.archive_file.lambda_package[0].output_base64sha256
+  filename         = var.lambda_settings.package.type == "Image" ? null : (var.lambda_settings.package.source_path == null ? var.lambda_settings.package.local_path : data.archive_file.lambda_package[0].output_path)
+  source_code_hash = var.lambda_settings.package.type == "Image" ? null : (var.lambda_settings.package.source_path == null ? filebase64sha256(var.lambda_settings.package.local_path) : data.archive_file.lambda_package[0].output_base64sha256)
 
   environment {
     variables = var.lambda_settings.environment_variables
@@ -230,7 +230,6 @@ resource "aws_cloudwatch_log_subscription_filter" "lambda_logs_forwarding" {
 # ---------------------------------------------------------------------------------------------------------------------
 module "lambda_trigger" {
   source = "./modules/trigger"
-  count  = var.trigger_settings != {} ? 1 : 0
 
   trigger_settings      = var.trigger_settings
   existing_kms_cmk_arn  = var.existing_kms_cmk_arn
@@ -247,7 +246,7 @@ module "lambda_execution_iam_role" {
 
   execution_iam_role_settings = var.execution_iam_role_settings
   existing_kms_cmk_arn        = var.existing_kms_cmk_arn
-  dead_letter_target_arn      = var.lambda_settings.error_handling != null ? (var.lambda_settings.error_handling.dead_letter_config != null ? var.lambda_settings.dead_letter_config.target_arn : null) : null
+  dead_letter_target_arn      = try(var.lambda_settings.error_handling.dead_letter_config.target_arn, null)
   runtime_configuration       = local.runtime_configuration
   vpc_subnet_ids              = var.lambda_settings.vpc_config != null ? var.lambda_settings.vpc_config.subnet_ids : []
   resource_tags               = local.resource_tags
@@ -273,7 +272,7 @@ data "aws_iam_policy_document" "triggering_sqs_permissions" {
       sid       = "AllowTriggerSqs"
       effect    = "Allow"
       actions   = ["sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueAttributes"]
-      resources = [module.lambda_trigger[0].trigger_sqs_arn]
+      resources = [module.lambda_trigger.trigger_sqs_arn]
     }
   }
 }
