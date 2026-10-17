@@ -16,7 +16,7 @@ terraform {
   required_providers {
     aws = {
       source                = "hashicorp/aws"
-      version               = ">= 5.00"
+      version               = ">= 6.0"
       configuration_aliases = []
     }
     archive = {
@@ -50,20 +50,20 @@ locals {
       "module_stack" = "lambda"
     }
   )
-  region_name_length = length(data.aws_region.current.id)
+  region_name_length = length(data.aws_region.current.region)
   region_name_short = format("%s%s%s",
-    substr(data.aws_region.current.id, 0, 2),
-    substr(data.aws_region.current.id, 3, 1),
-    substr(data.aws_region.current.id, local.region_name_length - 1, 1)
+    substr(data.aws_region.current.region, 0, 2),
+    substr(data.aws_region.current.region, 3, 1),
+    substr(data.aws_region.current.region, local.region_name_length - 1, 1)
   )
   loggroup_name = "/aws/lambda/${var.lambda_settings.function_name}"
   runtime_configuration = {
     partition_name = data.aws_partition.current.partition
-    region_name    = data.aws_region.current.id
+    region_name    = data.aws_region.current.region
     region_short   = local.region_name_short
     account_id     = data.aws_caller_identity.current.account_id
     lambda_name    = var.lambda_settings.function_name
-    lambda_arn     = "arn:${data.aws_partition.current.partition}:lambda:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
+    lambda_arn     = "arn:${data.aws_partition.current.partition}:lambda:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:function:${var.lambda_settings.function_name}"
     lambda_timeout = var.lambda_settings.config.timeout
     loggroup_name  = local.loggroup_name
   }
@@ -209,8 +209,8 @@ resource "aws_lambda_permission" "allow_lambda_logs" {
 
   action         = "lambda:InvokeFunction"
   function_name  = var.lambda_settings.error_handling.central_collector.target_name
-  principal      = "logs.${data.aws_region.current.id}.amazonaws.com"
-  source_arn     = "arn:${data.aws_partition.current.id}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:${local.loggroup_name}:*"
+  principal      = "logs.${data.aws_region.current.region}.amazonaws.com"
+  source_arn     = "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:${local.loggroup_name}:*"
   source_account = data.aws_caller_identity.current.account_id
   depends_on     = [aws_cloudwatch_log_group.lambda_logs]
 }
